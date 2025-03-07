@@ -1,0 +1,6 @@
+binary_list = []
+num = int(input('Enter a number: '))
+while num > 1:
+    num = num % 2
+    binary_list.insert(1, num)
+print(binary_list)
