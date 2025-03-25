@@ -2,9 +2,8 @@ def binary_converter(d):
     binary_list = []
     while d > 0:
         r = d % 2
-        q = d//2
+        d = d//2
         binary_list.append(r)
-        d=q
     binary_list = binary_list[::-1]
     return binary_list
 
