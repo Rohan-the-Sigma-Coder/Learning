@@ -1,0 +1,5 @@
+Hello!
+
+This is a text file used for practicing purposes for file handling1
+
+It was created by Rohan Jha!
