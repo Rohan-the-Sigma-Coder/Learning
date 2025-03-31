@@ -1,2 +1,2 @@
+This is finished work in branch2 that has been committed
 This is unfinished work in branch2 that has not been committed yet
-This is some more unmeaningful text
