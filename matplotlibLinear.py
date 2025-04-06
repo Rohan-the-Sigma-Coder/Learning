@@ -35,6 +35,10 @@ for x in range(3):
     print(f'Generating graph in {timer}')
     time.sleep(1)
     timer -= 1
+plt.xlabel('x-axis', color = 'r')
+plt.ylabel('y-axis', color = 'r')
+plt.title('Linear Graph', color = 'b')
+plt.grid()
 plt.show()
 
 
