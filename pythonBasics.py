@@ -1,5 +1,4 @@
-import re
-
-txt = 'The rain in Spain'
-x = re.findall('\AThe', txt)
-print(x)
+try:
+    user_input = int(input('Enter: '))
+except ValueError:
+    print('That was not a number!')
