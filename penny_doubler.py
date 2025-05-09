@@ -7,12 +7,11 @@ def doubler_penny_1(days):
 
 
 def doubler_penny_2():
-    global output
     output = [0.01]
     for i in range(30):
         output.append(output[len(output) - 1] * 2)
     for x in range(0, len(output) - 1):
-        print(f'Day {x + 1}: {output[x]}')
+        print(f'Day {x + 1}: ${output[x]}')
 
 
 
