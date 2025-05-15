@@ -1,5 +1,4 @@
-def star_pyramid():
-    spaces = 5
+def diamond(spaces):
     for i in range(1, 10, 2):
         print(' ' * spaces + '*' * i)
         spaces -= 1
@@ -10,4 +9,5 @@ def star_pyramid():
 
 
 
-star_pyramid()
+spaces = 5
+diamond(spaces)
