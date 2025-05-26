@@ -1,21 +1,28 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import re
-x_points = np.array([-10, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-user_input = input('Enter a quadratic equation (#x^2 + #x + #): ')
-equation = list(user_input)
-try:
-    a = int(equation[0])
-    b = int(equation[7])
-    c = int(equation[12])
-except IndexError:
-    print('Invalid Response')
-    quit()
-try:
-    y_points = a * x_points**2 + b * x_points + c
-except ValueError:
-    print('Invalid Response')
-    quit()
+def parse_coeff(s):
+        if s in (" ", "+"):
+            return 1
+        elif s == '-':
+            return -1
+        return int(s)
+x_points = np.array(range(-10, 10), dtype=float)
+user_input = input('Enter a quadratic equation (#x^2 + #x + #): ').replace(" ", "")
+def quadratic(x_points, user_input):
+    equation = list(user_input)
+    match = re.fullmatch(r'([+-]?\d*)x\^2([+-]?\d*)x([+-]?\d+)', user_input)
+    if not match:
+        print('Invalid input. Enter in format ax^2 + bx + c')
+        quit()
+    a = parse_coeff(match.group(1))
+    b = parse_coeff(match.group(2))
+    c = int(match.group(3))
+    return (a * x_points ** 2) + (b * x_points) + c
+
+
+
+y_points = quadratic(x_points, user_input)
 plt.plot(x_points, y_points)
 plt.grid()
 plt.show()
