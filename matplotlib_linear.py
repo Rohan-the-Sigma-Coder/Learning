@@ -34,11 +34,8 @@ def linear(alpha_list, user_input, xpoints):
 
 ypoints = linear(alpha_list, user_input, xpoints)
 plt.plot(xpoints, ypoints)
-timer = 3
-for x in range(3):
-    print(f'Generating graph in {timer}')
-    time.sleep(1)
-    timer -= 1
+print('Generating graph...')
+time.sleep(1)
 plt.xlabel('x-axis', color = 'r')
 plt.ylabel('y-axis', color = 'r')
 plt.title('Linear Graph', color = 'b')

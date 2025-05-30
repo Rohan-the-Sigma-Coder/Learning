@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import re
+import time
 def parse_coeff(s):
         if s in (" ", "+"):
             return 1
@@ -24,6 +25,8 @@ def quadratic(x_points, equation):
 
 y_points = quadratic(x_points, equation)
 plt.plot(x_points, y_points)
+print('Generating graph...')
+time.sleep(1)
 plt.xlabel('x-axis', color = 'r')
 plt.ylabel('y-axis', color = 'r')
 plt.title('Quadratic Graph', color = 'b')
