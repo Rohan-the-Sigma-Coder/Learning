@@ -9,8 +9,8 @@ def parse_coeff(s):
         return int(s)
 x_points = np.array(range(-10, 10), dtype=float)
 user_input = input('Enter a quadratic equation (#x^2 + #x + #): ').replace(" ", "")
-def quadratic(x_points, user_input):
-    equation = list(user_input)
+equation = list(user_input)
+def quadratic(x_points, equation):
     match = re.fullmatch(r'([+-]?\d*)x\^2([+-]?\d*)x([+-]?\d+)', user_input)
     if not match:
         print('Invalid input. Enter in format ax^2 + bx + c')
@@ -22,7 +22,10 @@ def quadratic(x_points, user_input):
 
 
 
-y_points = quadratic(x_points, user_input)
+y_points = quadratic(x_points, equation)
 plt.plot(x_points, y_points)
+plt.xlabel('x-axis', color = 'r')
+plt.ylabel('y-axis', color = 'r')
+plt.title('Quadratic Graph', color = 'b')
 plt.grid()
 plt.show()
