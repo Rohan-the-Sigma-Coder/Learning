@@ -1,12 +1,11 @@
 import math
 
-perfect_log = True
-answer = 0
-
 argument = int(input("Enter argument: "))
 base = int(input("Enter base: "))
 
-def logrithim_calculator(perfect_log, answer, argument, base):
+def logrithim_calculator(argument, base):
+    perfect_log = True
+    answer = 0
     while argument > 1:
         if argument % base == 0:
             argument = argument/base
@@ -15,7 +14,6 @@ def logrithim_calculator(perfect_log, answer, argument, base):
             break
         answer += 1
 
-
     if perfect_log == True: 
         return answer
     else:
@@ -23,4 +21,4 @@ def logrithim_calculator(perfect_log, answer, argument, base):
     
 
 
-print(logrithim_calculator(perfect_log, answer, argument, base))
+print(logrithim_calculator(argument, base))

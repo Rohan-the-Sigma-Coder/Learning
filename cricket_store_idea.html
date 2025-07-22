@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pro Cricket Store</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: #f8f9fa;
+      color: #222;
+    }
+    header {
+      background-color: #006400;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    nav {
+      margin-top: 0.5rem;
+    }
+    nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .hero {
+      background: url('https://images.unsplash.com/photo-1509228627152-8b9b9471c810?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+      color: white;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.8);
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h2 {
+      color: #006400;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .product {
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      padding: 1rem;
+      text-align: center;
+    }
+    .product img {
+      max-width: 100%;
+      border-radius: 6px;
+    }
+    .product h3 {
+      margin: 1rem 0 0.5rem;
+      font-size: 1.2rem;
+    }
+    .product p {
+      margin: 0.5rem 0 1rem;
+      color: #555;
+    }
+    .product button {
+      background-color: #006400;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .product button:hover {
+      background-color: #004d00;
+    }
+    section.about, section.contact {
+      background: white;
+      padding: 2rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 3rem;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    form {
+      max-width: 600px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    form input, form textarea {
+      padding: 0.8rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      resize: vertical;
+    }
+    form button {
+      background-color: #006400;
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    form button:hover {
+      background-color: #004d00;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      color: #777;
+      font-size: 0.9rem;
+      border-top: 1px solid #ddd;
+      margin-top: 2rem;
+    }
+    @media (max-width: 600px) {
+      header {
+        font-size: 1.5rem;
+      }
+      .hero {
+        font-size: 1.5rem;
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Pro Cricket Store
+    <nav>
+      <a href="#products">Products</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    Quality Cricket Gear for Champions
+  </div>
+
+  <div class="container">
+    <section id="products">
+      <h2>Our Products</h2>
+      <div class="products">
+        <div class="product">
+          <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80" alt="Cricket Bat" />
+          <h3>Pro Cricket Bat</h3>
+          <p>High-quality willow bat for power hitting.</p>
+          <button>Add to Cart - $120</button>
+        </div>
+        <div class="product">
+          <img src="https://images.unsplash.com/photo-1579828628134-9892aabb2c79?auto=format&fit=crop&w=600&q=80" alt="Cricket Helmet" />
+          <h3>SafeGuard Helmet</h3>
+          <p>Top-rated helmet for safety and comfort.</p>
+          <button>Add to Cart - $80</button>
+        </div>
+        <div class="product">
+          <img src="https://images.unsplash.com/photo-1568572933382-74d440642117?auto=format&fit=crop&w=600&q=80" alt="Cricket Gloves" />
+          <h3>GripMaster Gloves</h3>
+          <p>Durable gloves with excellent grip.</p>
+          <button>Add to Cart - $45</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <h2>About Us</h2>
+      <p>At Pro Cricket Store, we are passionate about the game. We offer premium cricket equipment at affordable prices to help players of all levels perform their best. Whether you are a beginner or a pro, we’ve got the gear you need to win.</p>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>Contact Us</h2>
+      <form>
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </div>
+
+  <footer>
+    &copy; 2025 Pro Cricket Store. All rights reserved.
+  </footer>
+</body>
+</html>
