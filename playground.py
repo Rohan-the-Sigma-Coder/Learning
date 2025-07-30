@@ -1,7 +1,4 @@
 nums = [1, 2, 4, 8, 16]
+letters = ['a', 'b', 'c', 'd', 'e']
 
-for i in range(1, len(nums), -1):
-    nums.append(nums[i] / i)
-
-
-print(nums)
+print(nums.index(8))
