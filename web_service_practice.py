@@ -67,7 +67,6 @@ def delete_practice():
 
 
 
-delete_practice()
 
 
 
