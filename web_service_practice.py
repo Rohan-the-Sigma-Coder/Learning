@@ -60,14 +60,13 @@ def delete_practice():
     url = f'https://jsonplaceholder.typicode.com/posts/{post_id}'
     response = requests.delete(url)
 
-    if response.status_code == 200 or 204:
+    if response.status_code in (200, 204):
         print(f'Successfully deleted the content, status Code: {response.status_code}')
     else:
         print(f'Something went wrong: {response.status_code}')
 
 
 
-delete_practice()
 
 
 
