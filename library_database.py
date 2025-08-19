@@ -1,0 +1,194 @@
+import mysql.connector
+import time
+from datetime import date
+
+
+try:
+    conn = mysql.connector.connect(
+        host="localhost", 
+        user="rohan_jha",
+        password="ILoveCoding!@#123",
+        database="my_library",
+        port=3307
+    )
+    
+    
+    global today
+    today = date.today()
+    
+    
+    def log_in_page():
+        print('''
+                Library Managment System:
+                PRESS:
+
+                        1 ------ Log in
+                        2 ------ Create member (Sign up) 
+                    ''')
+    
+
+
+    def main_page():
+        print('''
+                Library Managment System:
+                PRESS:
+
+                        1 ------ Log out
+                        2 ------ Check out book
+                        3 ------ Return book
+                        4 ------ Insert new book
+                        5 ------ Delete account
+                    ''')
+        
+
+    
+    def execute(query):
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        return rows
+    
+    
+    
+    def manipulate_database(sql, val):
+        cursor.execute(sql, val)
+        conn.commit()
+        
+    
+    
+    
+    def log_in():
+            global member_id
+            member_id = input('Enter your Member ID: ')
+            print('Searching library database...')
+            time.sleep(2)
+            rows = execute(f'SELECT MemberID FROM members WHERE MemberID = {member_id}')
+            if len(rows) == 0:
+                print('Member not found, sign up if you need to.')
+            else:
+                results = execute(f'SELECT FirstName, LastName FROM members WHERE MemberID = {member_id}')
+                print('✅ Successfully logged in, welcome to the library', *results[0],'.')
+    
+        
+    
+    def log_out():
+        print('✅ Logged out successfully.')
+        time.sleep(1)
+        quit()
+
+    
+    
+    def check_out_book():
+        book_id = input('Enter book ID: ')
+        book = execute(f'SELECT Title FROM books WHERE BookID = {book_id}')
+        sql = "INSERT INTO loans (BookId, MemberID, LoanDate) VALUES (%s, %s, %s)"
+        val = (book_id, member_id, today)
+        manipulate_database(sql, val)
+        print('✅ You have officially checked out the book:', *book[0])
+
+
+    
+    def return_book():
+        loan_id = int(input('Enter the loan_id: '))
+        check = execute(f'SELECT Returned FROM loans WHERE LoanID = {loan_id}')
+        if check[0] == (1,):
+            print('❌ This loan has already been returned.')
+            return
+        else:
+            sql = "UPDATE loans SET Returned = %s WHERE LoanID = %s"
+            val = (1, loan_id)
+            manipulate_database(sql, val)
+            sql = "UPDATE loans SET ReturnedDate = %s WHERE LoanID = %s"
+            val = (today, loan_id)
+            manipulate_database(sql, val)
+            rows = execute(f'SELECT Title FROM books WHERE BookID = (SELECT BookID FROM loans WHERE LoanID = {loan_id})')
+            print("✅ Returned", "'",*rows[0],"'")
+
+    
+    
+    def insert_book():
+        book_name = input('Enter book name: ')
+        author = input('Enter author: ')
+        genre = input('Enter genre: ')
+        published_year = input('Enter published year: ')
+        isbn = int(input('Enter ISBN: '))
+        sql = "INSERT INTO books (Title, Author, Genre, PublishedYear, ISBN) VALUES (%s, %s, %s, %s, %s)"
+        val = (book_name, author, genre, published_year, isbn)
+        manipulate_database(sql, val)
+        print(f"✅ Successfully added '{book_name}' into the library system!")
+    
+    
+    
+    def delete_account():
+        member_id = input('Enter your member ID (for deletion): ')
+        confirmation = input('Are you sure you want to delete the account? (press y for yes and n for no): ').lower()
+        if confirmation == 'y':
+            sql = 'DELETE FROM members WHERE MemberID = %s'
+            val = (member_id)
+            manipulate_database(sql, val)
+            result = execute(f'SELECT FirstName, LastName FROM members WHERE MemberID = {member_id}')
+            print("✅ Successfully deleted", *result[0], "'s account")
+        
+    
+    
+    def create_account():
+        first_name = input('Enter first name: ')
+        last_name = input('Enter last name: ')
+        email = input('Enter email: ')
+        phone = input('Enter phone number: ')
+        join_date = today
+        sql = 'INSERT INTO members (FirstName, LastName, Email, Phone, JoinDate) VALUES (%s, %s, %s, %s, %s)'
+        val = (first_name, last_name, email, phone, join_date)
+        manipulate_database(sql, val)
+        print('✅ Successfully created your account!')
+
+
+
+    if conn.is_connected():
+        print("✅ Connected to MySQL database successfully!")
+
+        cursor = conn.cursor()
+
+        global logged_in
+
+        logged_in = False
+        
+        while True:
+            if logged_in == False:
+                log_in_page()
+                global choice
+                choice = int(input('Enter choice #: '))
+            else:
+                main_page()
+                choice = int(input('Enter choice #: '))
+                
+
+            if choice > 2 and logged_in == False:
+                print('❌ Please log in or sign up.')
+            elif choice == 1 and logged_in == False:
+                log_in()
+                logged_in = True
+            elif choice == 1 and logged_in == True:
+                log_out()
+            elif choice == 2 and logged_in == False:
+                create_account()
+                logged_in = True
+            elif choice == 2:
+                check_out_book()
+            elif choice == 3:
+                return_book()
+            elif choice == 4:
+                insert_book()
+            elif choice == 5:
+                delete_account()
+            else:
+                print('❌ Please enter a valid choice.')              
+
+except mysql.connector.Error as err:
+    print(f"❌ Error: {err}")
+
+
+
+
+
+
+
