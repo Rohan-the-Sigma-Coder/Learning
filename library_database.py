@@ -23,7 +23,7 @@ try:
                 PRESS:
 
                         1 ------ Log in
-                        2 ------ Create member (Sign up) 
+                        2 ------ Sign up
                     ''')
     
 
@@ -67,6 +67,7 @@ try:
             else:
                 results = execute(f'SELECT FirstName, LastName FROM members WHERE MemberID = {member_id}')
                 print('✅ Successfully logged in, welcome to the library', *results[0],'.')
+                time.sleep(2)
     
         
     
@@ -83,7 +84,8 @@ try:
         sql = "INSERT INTO loans (BookId, MemberID, LoanDate) VALUES (%s, %s, %s)"
         val = (book_id, member_id, today)
         manipulate_database(sql, val)
-        print('✅ You have officially checked out the book:', *book[0])
+        print('✅ You have officially checked out:', *book[0])
+        time.sleep(2)
 
 
     
@@ -102,6 +104,7 @@ try:
             manipulate_database(sql, val)
             rows = execute(f'SELECT Title FROM books WHERE BookID = (SELECT BookID FROM loans WHERE LoanID = {loan_id})')
             print("✅ Returned", "'",*rows[0],"'")
+            time.sleep(2)
 
     
     
@@ -115,18 +118,23 @@ try:
         val = (book_name, author, genre, published_year, isbn)
         manipulate_database(sql, val)
         print(f"✅ Successfully added '{book_name}' into the library system!")
+        time.sleep(2)
     
     
     
     def delete_account():
-        member_id = input('Enter your member ID (for deletion): ')
+        member_id = int(input('Enter your member ID (for deletion): '))
+        result = execute(f'SELECT FirstName, LastName FROM members WHERE MemberID = {member_id}')
         confirmation = input('Are you sure you want to delete the account? (press y for yes and n for no): ').lower()
         if confirmation == 'y':
             sql = 'DELETE FROM members WHERE MemberID = %s'
-            val = (member_id)
+            val = (member_id,)
             manipulate_database(sql, val)
-            result = execute(f'SELECT FirstName, LastName FROM members WHERE MemberID = {member_id}')
             print("✅ Successfully deleted", *result[0], "'s account")
+            time.sleep(2)
+        elif confirmation == 'n':
+            print('Ok, heading back to the main page...')
+            time.sleep(1.5)
         
     
     
@@ -139,7 +147,9 @@ try:
         sql = 'INSERT INTO members (FirstName, LastName, Email, Phone, JoinDate) VALUES (%s, %s, %s, %s, %s)'
         val = (first_name, last_name, email, phone, join_date)
         manipulate_database(sql, val)
-        print('✅ Successfully created your account!')
+        rows = execute(f'SELECT MemberID FROM members ORDER BY MemberID DESC LIMIT 1')
+        print('✅ Successfully created your account! Your member ID is:',*rows[0])
+        time.sleep(2)
 
 
 
@@ -156,10 +166,10 @@ try:
             if logged_in == False:
                 log_in_page()
                 global choice
-                choice = int(input('Enter choice #: '))
+                choice = int(input('Enter choice #️⃣: '))
             else:
                 main_page()
-                choice = int(input('Enter choice #: '))
+                choice = int(input('Enter choice #️⃣: '))
                 
 
             if choice > 2 and logged_in == False:
@@ -171,7 +181,6 @@ try:
                 log_out()
             elif choice == 2 and logged_in == False:
                 create_account()
-                logged_in = True
             elif choice == 2:
                 check_out_book()
             elif choice == 3:
