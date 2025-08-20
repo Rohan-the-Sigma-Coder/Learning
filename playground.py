@@ -1,13 +1,13 @@
-# nums = [1, 2, 4, 8, 16]
-# letters = ['a', 'b', 'c', 'd', 'e']
+nums = [1, 2, 4, 8, 16]
+letters = ['a', 'b', 'c', 'd', 'e']
 
 print(nums.index(8))
 
 
-# result = []
+result = []
 
-# user_input = input('Enter word seperated only by spaces (no commas, periods, marks, etc.): ')
-# test_case_input = 'My name is Rohan'
+user_input = input('Enter word seperated only by spaces (no commas, periods, marks, etc.): ')
+test_case_input = 'My name is Rohan'
 
 word_list = test_case_input.split(' ')
 
@@ -22,13 +22,13 @@ else:
 
 
 
-# input_list = list(user_input)
+input_list = list(user_input)
 
-# for x in range(len(input_list)):
-#     if input_list[x] == ' ':
-#         result.append(input_list[x-1])
+for x in range(len(input_list)):
+    if input_list[x] == ' ':
+        result.append(input_list[x-1])
     
 
-# result.append(input_list[-1])
-# print(*result)
+result.append(input_list[-1])
+print(*result)
 
