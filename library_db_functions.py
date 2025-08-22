@@ -26,6 +26,9 @@ def log_in_page():
 
                         1 ------ Log in
                         2 ------ Sign up
+                        3 ------ Find your Member ID
+                        4 ------ Quit
+                        
                     ''')
     
 
@@ -42,13 +45,14 @@ def main_page():
                         5 ------ Delete account
                         6 ------ List of books
                         7 ------ Find your Member ID
+                        8 ------ Quit
                     ''')
         
 
 def execute(query):
     cursor.execute(query)
-    rows = cursor.fetchall()
-    return rows
+    result = cursor.fetchall()
+    return result
     
     
     
@@ -64,12 +68,12 @@ def log_in():
         member_id = input('Enter your Member ID: ')
         print('Searching library database...')
         time.sleep(1.25)
-        rows = execute(f'SELECT MemberID FROM members WHERE MemberID = {member_id}')
-        if len(rows) == 0:
+        memberid = execute(f'SELECT MemberID FROM members WHERE MemberID = {member_id}')
+        if len(memberid) == 0:
             print('Member not found, sign up if you need to.')
         else:
-            results = execute(f'SELECT FirstName, LastName FROM members WHERE MemberID = {member_id}')
-            print('✅ Successfully logged in, welcome to the library', *results[0],'.')
+            name = execute(f'SELECT FirstName, LastName FROM members WHERE MemberID = {member_id}')
+            print('✅ Successfully logged in, welcome to the library', *name[0],'.')
             time.sleep(1.25)
     
         
@@ -97,6 +101,7 @@ def return_book():
     check = execute(f'SELECT Returned FROM loans WHERE LoanID = {loan_id}')
     if check[0] == (1,):
         print('❌ This loan has already been returned.')
+        time.sleep(2)
         return
     else:
         sql = "UPDATE loans SET Returned = %s WHERE LoanID = %s"
@@ -105,8 +110,8 @@ def return_book():
         sql = "UPDATE loans SET ReturnedDate = %s WHERE LoanID = %s"
         val = (today, loan_id)
         manipulate_database(sql, val)
-        rows = execute(f'SELECT Title FROM books WHERE BookID = (SELECT BookID FROM loans WHERE LoanID = {loan_id})')
-        print("✅ Returned", "'",*rows[0],"'")
+        title = execute(f'SELECT Title FROM books WHERE BookID = (SELECT BookID FROM loans WHERE LoanID = {loan_id})')
+        print("✅ Successfully Returned: ",*title[0])
         time.sleep(2)
 
     
@@ -127,17 +132,17 @@ def insert_book():
     
 def delete_account():
     member_id = int(input('Enter your member ID (for deletion): '))
-    result = execute(f'SELECT FirstName, LastName FROM members WHERE MemberID = {member_id}')
+    name = execute(f'SELECT FirstName, LastName FROM members WHERE MemberID = {member_id}')
     confirmation = input('Are you sure you want to delete the account? (press y for yes and n for no): ').lower()
     if confirmation == 'y':
         sql = 'DELETE FROM members WHERE MemberID = %s'
         val = (member_id,)
         manipulate_database(sql, val)
-        print("✅ Successfully deleted", *result[0], "'s account")
+        print("✅ Successfully deleted", *name[0], "'s account")
         time.sleep(2)
     elif confirmation == 'n':
         print('Ok, heading back to the main page...')
-        time.sleep(1.5)
+        time.sleep(2)
                 
     
     
@@ -150,22 +155,27 @@ def create_account():
     sql = 'INSERT INTO members (FirstName, LastName, Email, Phone, JoinDate) VALUES (%s, %s, %s, %s, %s)'
     val = (first_name, last_name, email, phone, join_date)
     manipulate_database(sql, val)
-    rows = execute(f'SELECT MemberID FROM members ORDER BY MemberID DESC LIMIT 1')
-    print('✅ Successfully created your account! Your member ID is:',*rows[0])
+    memberid = execute(f'SELECT MemberID FROM members ORDER BY MemberID DESC LIMIT 1')
+    print('✅ Successfully created your account! Your member ID is:',*memberid[0])
     time.sleep(2)
 
 
 def avaliable_books():
      print('Fetching avaliable books...')
      time.sleep(1.5)
-     result = execute('SELECT Title FROM books')
-     for i in range(len(result)):
-          print(*result[i])
+     title = execute('SELECT Title FROM books')
+     for i in range(len(title)):
+          print(*title[i])
+          time.sleep(0.2)
      time.sleep(2) 
 
 
 def find_member_id():
      first_name = input('Enter your first name: ')
      last_name = input('Enter your last name: ')
-     result = execute(f"SELECT MemberID FROM members WHERE FirstName = '{first_name}' AND LastName = '{last_name}'")
-     print('Your member ID is:',*result[0])
+     memberid = execute(f"SELECT MemberID FROM members WHERE FirstName = '{first_name}' AND LastName = '{last_name}'")
+     if len(memberid) > 0:
+        print('Your member ID is:',*memberid[0])
+     else:
+          print('❌ Member ID not found.')
+     time.sleep(2)

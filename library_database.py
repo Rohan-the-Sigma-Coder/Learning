@@ -43,8 +43,9 @@ try:
 
             try:
                 choice = int(input('Enter choice #️⃣: '))
-                if choice > 2 and logged_in == False:
+                if choice > 4 and logged_in == False:
                     print('❌ Please log in or sign up.')
+                    time.sleep(1.5)
                 elif choice == 1 and logged_in == False:
                     log_in()
                     logged_in = True
@@ -52,6 +53,14 @@ try:
                     log_out()
                 elif choice == 2 and logged_in == False:
                     create_account()
+                elif choice == 7 and logged_in == True:
+                    find_member_id()
+                elif choice == 3 and logged_in == False:
+                    find_member_id()
+                elif choice == 4 and logged_in == False:
+                    quit()
+                elif choice == 8 and logged_in == True:
+                    quit()
                 elif choice == 2:
                     check_out_book()
                 elif choice == 3:
@@ -62,13 +71,13 @@ try:
                     delete_account()
                 elif choice == 6:
                     avaliable_books()
-                elif choice == 7:
-                    find_member_id()
                 else:
-                    print('❌ Please enter a valid choice.')    
+                    print('❌ Please enter a valid choice.')
+                    time.sleep(1.5)    
 
             except ValueError:
-                print('❌ Please enter a valid option.')       
+                print('❌ Please enter a valid option.') 
+                time.sleep(1.5)      
 
 except mysql.connector.Error as err:
     print(f"❌ Error: {err}")
