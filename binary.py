@@ -29,7 +29,12 @@ def binary_to_decimal(binary):
      return sum(result_list)
 
 
-binary = int(input('Binary number: '))
+binary = input('Binary number: ')
+
+try:
+    binary = int(binary)
+except:
+    print('Invalid Input')
 print(binary_to_decimal(binary))
          
 
