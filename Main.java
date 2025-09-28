@@ -8,10 +8,18 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
-    System.out.print("Name: ");
-    String name = scanner.nextLine().trim();
-    System.out.println("You are " + name);
+        String[] fruits = {"Apple", "Mango", "Orange"};
+
+        for (int i = fruits.length; i > 0; i--)
+            System.out.println(fruits[i]);
+
+        for (String fruit : fruits)
+            System.out.println(fruit);
+        }
+
+
     }
+
+
     
-}
+
