@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class fizzbuzz {
+public class Fizzbuzz {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Number: ");
