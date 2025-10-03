@@ -1,7 +1,7 @@
 import java.text.NumberFormat;
 import java.util.Scanner;
 
-public class mortgage_calculator {
+public class MortgageCalculator {
     public static void main(String[] args) {
         final byte MONTHS_IN_YEAR = 12;
         final byte PERCENT = 100;
@@ -41,9 +41,9 @@ public class mortgage_calculator {
         int numberOfPayments = years * MONTHS_IN_YEAR;
             
         double mortgage = principal * (monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments)) / ((Math.pow(1 + monthlyInterest, numberOfPayments)) - 1);
-        String mortgage_result = NumberFormat.getCurrencyInstance().format(mortgage);
-        System.out.println("Mortgage: " + mortgage_result);
-
+        String mortgageResult = NumberFormat.getCurrencyInstance().format(mortgage);
+        System.out.println("Mortgage: " + mortgageResult);
+        scanner.close();
         }
     }
 
