@@ -14,5 +14,6 @@ public class Fizzbuzz {
         else
             System.out.println(num);
         }
+        scanner.close()
     }
 
