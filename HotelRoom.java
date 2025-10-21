@@ -22,4 +22,10 @@ public class HotelRoom {
     public boolean isBooked () {
         return isBooked;
     }
+    public String toString() {
+        return "Room Number: " + roomNumber 
+            + "      Occupant: " + occupant + 
+            "      Price Per Night: $" + pricePerNight +
+            "     Booked: " + isBooked;                                                                                            
+    }
 }
