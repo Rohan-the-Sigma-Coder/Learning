@@ -24,8 +24,8 @@ public class HotelRoom {
     }
     public String toString() {
         return "Room Number: " + roomNumber 
-            + "      Occupant: " + occupant + 
-            "      Price Per Night: $" + pricePerNight +
-            "     Booked: " + isBooked;                                                                                            
+            + "\n" + "Occupant: " + occupant + 
+            "\n" + "Price Per Night: $" + pricePerNight + "\n" + 
+            "Booked: " + isBooked;                                                                                            
     }
 }
