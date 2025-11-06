@@ -5,6 +5,7 @@ public class HotelReservations {
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private int reservationRoom;
+    boolean isCheckedIn = false;
 
     public HotelReservations (long reservationID, LocalDate checkInDate, LocalDate checkOutDate, int reservationRoom) {
         this.reservationID = reservationID;
@@ -24,5 +25,11 @@ public class HotelReservations {
     }
     public int getReservationRoom () {
         return reservationRoom;
+    }
+    public String toString() {
+            return "Reservation Id: " + reservationID
+            + "\n" + "Check In Date " + checkInDate + 
+            "\n" + "Check Out Date: " + checkOutDate + "\n" 
+            + "Checked In: " + isCheckedIn;
     }
 }
