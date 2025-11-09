@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class HotelApp {
-    HotelReservations reservation;
+    public static HotelReservations reservation;
     public static void main(String[] args) {
         ArrayList<Integer> occupiedRooms = new ArrayList<>();
         ArrayList<Integer> reservations = new ArrayList<>();
