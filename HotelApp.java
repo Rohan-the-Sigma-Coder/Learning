@@ -1,77 +1,145 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class HotelApp {
-    public static HotelReservations reservation;
-    public static void main(String[] args) {
-        ArrayList<Integer> occupiedRooms = new ArrayList<>();
-        ArrayList<Integer> reservations = new ArrayList<>();
-        System.out.println("Welcome to the Grand Hotel! How can we assist you today?");
-        System.out.println("1: Book a room");
+
+    // Stores ALL reservations by reservation ID
+    public static Map<Integer, HotelReservations> allReservations = new HashMap<>();
+
+    public static Scanner scanner = new Scanner(System.in);
+    public static Integer userOption;
+
+    public static void showInterface() {
+        System.out.println("\nWelcome to the Grand Hotel!");
+        System.out.println("1: Book a reservation");
         System.out.println("2: Check in");
         System.out.println("3: Check out");
-        System.out.println("4: Book a reservation");
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("4: Exit");
         System.out.print("Option #: ");
-        int userOption = scanner.nextInt();
-        switch (userOption) {
-            case 1:
-                int pricePerNight = 0;
-                System.out.print("Enter the type of room you want to stay in (single, double, or suite): ");
-                String typeOfRoom = scanner.next();
-                System.out.print("What is your full name: ");
-                String guestName = scanner.next() + " " + scanner.next();
-                scanner.nextLine();
-                System.out.print("When will you check in (dd/MM/yyyy): ");
-                String dateString = scanner.nextLine();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate checkInDate = LocalDate.parse(dateString, formatter);
-                System.out.print("When will you check out (dd/MM/yyyy: ");
-                String dateString1 = scanner.nextLine();
-                DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate checkOutDate = LocalDate.parse(dateString1, formatter1);
-                switch (typeOfRoom) {
-                    case "single":
-                        pricePerNight = 80;
-                            break;
-                    case "double":
-                        pricePerNight = 140;
-                            break;
-                    case "suite":
-                        pricePerNight = 200;
-                            break;
-                }
-                int roomNumber = (int)((Math.random() * 100) + 100);
-                int reservationID = (int)(Math.random() * 100);
-                occupiedRooms.add(roomNumber);
-                reservations.add(reservationID);
-                HotelRoom guestRoom = new HotelRoom(roomNumber, guestName, pricePerNight, true);
-                reservation = new HotelReservations(reservationID, checkInDate, checkOutDate, roomNumber);
-                System.out.println(guestRoom.toString());
-                System.out.println(reservation.toString());
-            case 2:
-                System.out.print("What is your reservation Id?: ");
-                Integer reservationId = scanner.nextInt();
-                boolean isReserved = reservations.contains(reservationId);
-                if (isReserved == true) {
-                    reservation.isCheckedIn = true;
-                }
-                
+        userOption = scanner.nextInt();
+        scanner.nextLine(); // clear buffer
+    }
+
+    public static void main(String[] args) {
+
+        while (true) {
+            showInterface();
+
+            switch (userOption) {
+
+                case 1:  // BOOK RESERVATION
+                    bookReservation();
                     break;
-            case 3:
-                
+
+                case 2:  // CHECK IN
+                    checkIn();
                     break;
-            case 4:
-                
+
+                case 3:  // CHECK OUT
+                    checkOut();
                     break;
-            default:
-                System.out.println("Please enter a valid number");;
+
+                case 4:  // EXIT
+                    System.out.println("Goodbye!");
+                    scanner.close();
+                    System.exit(0);
+
+                default:
+                    System.out.println("Invalid option. Try again.");
+            }
         }
-        scanner.close();
+    }
 
 
+    // ------------------------
+    //       FUNCTIONS
+    // ------------------------
 
+    public static void bookReservation() {
+        int pricePerNight = 0;
+
+        System.out.print("Enter room type (single, double, suite): ");
+        String typeOfRoom = scanner.nextLine().trim().toLowerCase();
+
+        System.out.print("What is your full name: ");
+        String guestName = scanner.nextLine().trim();
+
+        System.out.print("When is check-in? (dd/MM/yyyy): ");
+        LocalDate checkInDate = LocalDate.parse(scanner.nextLine().trim(),
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        System.out.print("When is check-out? (dd/MM/yyyy): ");
+        LocalDate checkOutDate = LocalDate.parse(scanner.nextLine().trim(),
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        switch (typeOfRoom) {
+            case "single": pricePerNight = 80; break;
+            case "double": pricePerNight = 140; break;
+            case "suite":  pricePerNight = 200; break;
+            default:
+                System.out.println("Invalid room type. Reservation cancelled.");
+                return;
+        }
+
+        int roomNumber = (int)((Math.random() * 100) + 100);
+        int reservationID = (int)(Math.random() * 9000 + 1000); // 4-digit ID
+
+        HotelRoom guestRoom = new HotelRoom(roomNumber, guestName, pricePerNight, true);
+        HotelReservations reservation =
+                new HotelReservations(reservationID, checkInDate, checkOutDate, roomNumber);
+
+        // Store reservation
+        allReservations.put(reservationID, reservation);
+
+        System.out.println("\n✅ Reservation Created!");
+        System.out.println(guestRoom);
+        System.out.println(reservation);
+    }
+
+
+    public static void checkIn() {
+        System.out.print("Enter your reservation ID: ");
+        int reservationId = scanner.nextInt();
+        scanner.nextLine();
+
+        HotelReservations res = allReservations.get(reservationId);
+
+        if (res == null) {
+            System.out.println("❌ Reservation not found.");
+            return;
+        }
+
+        if (res.isCheckedIn) {
+            System.out.println("❗ You are already checked in.");
+            return;
+        }
+
+        res.isCheckedIn = true;
+        System.out.println("✅ Successfully checked in!");
+    }
+
+
+    public static void checkOut() {
+        System.out.print("Enter your reservation ID: ");
+        int reservationId = scanner.nextInt();
+        scanner.nextLine();
+
+        HotelReservations res = allReservations.get(reservationId);
+
+        if (res == null) {
+            System.out.println("❌ Reservation not found.");
+            return;
+        }
+
+        if (!res.isCheckedIn) {
+            System.out.println("❗ You must check in before checking out.");
+            return;
+        }
+
+        allReservations.remove(reservationId);
+        System.out.println("✅ Successfully checked out!");
     }
 }
