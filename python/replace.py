@@ -1,0 +1,5 @@
+x = str(input('Enter a sentence: '))
+y = str(input('Enter a word in your sentence to replace: '))
+z = str(input('Now enter a word to replace your original word: '))
+m = x.replace(y, z)
+print(m)
