@@ -9,7 +9,11 @@ global now
 global change
 now = date.now()
 
-os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
+token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
+if not token:
+    raise RuntimeError("Set HUGGINGFACEHUB_API_TOKEN in your environment")
+
+os.environ["HUGGINGFACEHUB_API_TOKEN"] = token
 llm = HuggingFaceEndpoint(
     repo_id="google/gemma-2-2b-it",  # Chat-compatible model
     temperature=0.7,
