@@ -50,7 +50,7 @@ def get(url):
     return response.json()
 
 def order(symbol, quantity):
-    data = get(f"https://financialmodelingprep.com/stable/profile?symbol={symbol}&apikey=zhj0MAKYchz1oswfb27xJ8Lan3kdZ9O7")
+    data = get(f"https://financialmodelingprep.com/stable/profile?symbol={symbol}&apikey={token}")
     if not data:
         print("Invalid symbol")
         return
@@ -69,7 +69,7 @@ def buy_stock(user_id):
     if result is None:
         return
     amount, company = result
-    unit_price = get(f"https://financialmodelingprep.com/stable/profile?symbol={symbol}&apikey=zhj0MAKYchz1oswfb27xJ8Lan3kdZ9O7")
+    unit_price = get(f"https://financialmodelingprep.com/stable/profile?symbol={symbol}&apikey={token}")
     unit_price = unit_price[0]
     unit_price = float(unit_price['price'])
     rows = execute("SELECT balance FROM balances WHERE user_id = %s", (user_id,))
@@ -99,7 +99,7 @@ def sell_stock(user_id):
     if result is None:
         return
     amount, company = result
-    unit_price = get(f"https://financialmodelingprep.com/stable/profile?symbol={symbol}&apikey=zhj0MAKYchz1oswfb27xJ8Lan3kdZ9O7")
+    unit_price = get(f"https://financialmodelingprep.com/stable/profile?symbol={symbol}&apikey={token}")
     unit_price = unit_price[0]
     unit_price = float(unit_price['price'])
     rows = execute("SELECT balance FROM balances WHERE user_id = %s", (user_id,))
@@ -198,7 +198,7 @@ while True:
                 company_list.append(row[0])
             change = 0
             for i in range(len(company_list)):
-                price_data = get(f"https://financialmodelingprep.com/stable/profile?symbol={company_list[i]}&apikey=zhj0MAKYchz1oswfb27xJ8Lan3kdZ9O7")
+                price_data = get(f"https://financialmodelingprep.com/stable/profile?symbol={company_list[i]}&apikey={token}")
                 price = float(price_data[0]["price"])
                 stock_quantity = execute(
                     "SELECT quantity FROM holdings WHERE customer_id = %s AND ticker = %s",
