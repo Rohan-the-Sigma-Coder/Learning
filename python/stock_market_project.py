@@ -50,7 +50,7 @@ def get(url):
     return response.json()
 
 def order(symbol, quantity):
-    data = get(f"https://financialmodelingprep.com/stable/profile?symbol={symbol}&apikey={token}")
+    data = get(f"https://financialmodelingprep.com/stable/profile?symbol={symbol}&apikey=zhj0MAKYchz1oswfb27xJ8Lan3kdZ9O7")
     if not data:
         print("Invalid symbol")
         return
@@ -69,7 +69,7 @@ def buy_stock(user_id):
     if result is None:
         return
     amount, company = result
-    unit_price = get(f"https://financialmodelingprep.com/stable/profile?symbol={symbol}&apikey={token}")
+    unit_price = get(f"https://financialmodelingprep.com/stable/profile?symbol={symbol}&apikey=zhj0MAKYchz1oswfb27xJ8Lan3kdZ9O7")
     unit_price = unit_price[0]
     unit_price = float(unit_price['price'])
     rows = execute("SELECT balance FROM balances WHERE user_id = %s", (user_id,))
@@ -99,7 +99,7 @@ def sell_stock(user_id):
     if result is None:
         return
     amount, company = result
-    unit_price = get(f"https://financialmodelingprep.com/stable/profile?symbol={symbol}&apikey={token}")
+    unit_price = get(f"https://financialmodelingprep.com/stable/profile?symbol={symbol}&apikey=zhj0MAKYchz1oswfb27xJ8Lan3kdZ9O7")
     unit_price = unit_price[0]
     unit_price = float(unit_price['price'])
     rows = execute("SELECT balance FROM balances WHERE user_id = %s", (user_id,))
@@ -146,10 +146,11 @@ def main_page():
           2 - Sell
           3 - Total change
           4 - Balances
-          5 - Purchase
-          6 - Ai Assistance
-          7 - Log out
-          8 - Delete Account""")
+          5 - Holdings
+          6 - Purchase
+          7 - Ai Assistance
+          8 - Log out
+          9 - Delete Account""")
 
 while True:    
     if signed_in == False:
@@ -198,8 +199,8 @@ while True:
                 company_list.append(row[0])
             change = 0
             for i in range(len(company_list)):
-                price_data = get(f"https://financialmodelingprep.com/stable/profile?symbol={company_list[i]}&apikey={token}")
-                price = float(price_data[0]["price"])
+                price_data = get(f"https://financialmodelingprep.com/stable/profile?symbol={company_list[i]}&apikey=zhj0MAKYchz1oswfb27xJ8Lan3kdZ9O7")
+                price = float(price_data[0]['price'])
                 stock_quantity = execute(
                     "SELECT quantity FROM holdings WHERE customer_id = %s AND ticker = %s",
                     (user_id, company_list[i]),
@@ -214,8 +215,8 @@ while True:
             manipulate_database("UPDATE balances SET total_change = %s WHERE user_id = %s", (change, user_id))
             rows = execute("SELECT total_change FROM balances WHERE user_id = %s", (user_id,))
             if rows:
-                total_change = rows[0][0]
-                print(f"Total gain/loss: ${total_change}")
+                total_change = (rows[0][0])/10
+                print(f"Total gain/loss: ${f"{total_change:.2f}"}  ({f"{((total_change * 100)/currentbalance):.2f}"}%)")
             else:
                 print("No balance row for this user.")
             time.sleep(1)
@@ -233,6 +234,17 @@ while True:
             time.sleep(4)
 
         elif user_input == 5:
+            rows = execute("SELECT ticker, quantity FROM holdings WHERE customer_id = %s", (user_id,))
+            if not rows:
+                print("No current holdings")
+            else:
+                print("Holdings:")
+                print("Symbol: Quantity (shares)""")
+                for i in range(len(rows)):
+                    print(f"{rows[i][0]}: {rows[i][1]}")
+                time.sleep(2)
+
+        elif user_input == 6:
             bought_item = input("What do you want to buy (anything, specificity gives more accurate price): ")
             amount = int(input("How much or many of that thing: "))
             cost = chat_llm.invoke([HumanMessage(content=f"How much would {amount} {bought_item} cost? Give me only the price and nothing else. NO DOLLAR SIGN, JUST NUMBER.")])
@@ -247,7 +259,7 @@ while True:
             current_balance = current_balance[0][0]                
             manipulate_database("UPDATE balances SET balance = %s WHERE user_id = %s", (current_balance - int(cost), user_id,))
 
-        elif user_input == 6:
+        elif user_input == 7:
             while True:
                 prompt = input("What's on your mind (type 'quit' to exit): ")
                 if prompt.lower() == "quit":
@@ -259,10 +271,10 @@ while True:
                 print(f"AI: {ai_msg.content}")
 
 
-        elif user_input == 7:
+        elif user_input == 8:
             signed_in = False
 
-        elif user_input == 8:
+        elif user_input == 9:
             confirmation = input("Are you sure you want to delete your account? (Y for yes, N for no): ").upper()
             if confirmation == "Y":
                 manipulate_database("DELETE FROM users WHERE id = %s", (user_id,))

@@ -6,7 +6,7 @@ try:
         host="localhost", 
         user="rohan_jha",
         password="ILoveCoding!@#123",
-        database="world",
+        database="stock_market",
         port=3307
     )
     if conn.is_connected():
@@ -35,5 +35,6 @@ def get(url):
 
 # data = get(f"https://financialmodelingprep.com/stable/profile?symbol=AAPL&apikey=zhj0MAKYchz1oswfb27xJ8Lan3kdZ9O7")
 # print(data[0])
-rows = execute("SELECT * FROM real_estate_data")
-print(rows[0])
+rows = execute("SELECT quantity FROM holdings WHERE customer_id = 1 AND ticker = 'AAPL'")
+print(rows)
+
