@@ -29,7 +29,7 @@ def prime_num_generator():
     print(f'Time it took for program to run: approximately {round(endTimeInSec - startTimeInSec, 3)} seconds')
 
 
-prime_num_generator()
+print(is_prime(3))
 
 
 
