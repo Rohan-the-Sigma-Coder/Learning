@@ -31,6 +31,8 @@ def binary_calculator(binary1, operation, binary2):
         decimal = decimal1 - decimal2
     if operation == "*":
         decimal = decimal1 * decimal2
+    if operation == "/":
+        decimal = decimal1 // decimal2
     
     binary_result = decimal_to_binary(decimal)
     return binary_result, decimal

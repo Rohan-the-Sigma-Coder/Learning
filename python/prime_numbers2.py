@@ -1,23 +1,23 @@
 import math
 import time
 
-def prime_numbers(num):
-    start_time = time.perf_counter_ns() / 1_000_000    
-    factors = []
+def is_prime(num):
+    is_prime = True
+    start_time_ms = time.perf_counter_ns() / 1_000_000    
     squared_num = math.sqrt(num)
     squared_num = math.ceil(squared_num)
-    for i in range(1, squared_num + 1):
+    squared_num = num
+    for i in range(2, squared_num + 1):
         if num % i == 0:
-            factors.append(i)
-    factors.sort()
-    end_time = time.perf_counter_ns() / 1_000_000    
-    difference = end_time - start_time
-    if len(factors) == 1:
-        return "Prime Number", difference
-    else:
-        return num, difference
+            is_prime = False
+            break
+    end_time_ms = time.perf_counter_ns() / 1_000_000    
+    runtime_ms = end_time_ms - start_time_ms
+    return is_prime, runtime_ms
+
+    
 
 num = int(input("Enter number: "))
-result, difference = prime_numbers(num)
+result, runtime_ms = is_prime(num)
 print(result)
-print(f"It took {difference} milliseconds to run the program")
+print(f"It took {runtime_ms} milliseconds to run the program")
