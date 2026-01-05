@@ -33,6 +33,8 @@
 # print(*result)
 
 
-num = 101
-my_list = list(map(int, str(num)))
-print(my_list)
+# num = 101
+# my_list = list(map(int, str(num)))
+# print(my_list)
+
+print(1%2)
